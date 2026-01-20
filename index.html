@@ -20,27 +20,29 @@
             text-transform: uppercase;
         }
 
+        /* Увеличенный шрифт для HUD элементов */
         .pixel-font {
             font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
+            font-size: 11px; /* Increased from 10px */
             line-height: 1.6;
-            text-shadow: 2px 2px 0px #000;
+            text-shadow: 0 0 8px rgba(255,255,255,0.7); /* Stronger text shadow */
             color: #FFFFFF;
         }
 
         .hud-data {
-            font-size: 9px;
+            font-size: 10px; /* Increased from 9px */
             letter-spacing: 1.5px;
-            opacity: 0.85;
+            opacity: 0.9; /* Slightly less opaque for better contrast */
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
         @keyframes monitor-flicker {
-            0% { opacity: 0.99; }
-            5% { opacity: 0.98; }
-            10% { opacity: 1; }
-            15% { opacity: 0.97; }
-            20% { opacity: 0.99; }
-            100% { opacity: 1; }
+            0% { opacity: 0.99; filter: brightness(1); }
+            5% { opacity: 0.98; filter: brightness(0.98); }
+            10% { opacity: 1; filter: brightness(1.02); }
+            15% { opacity: 0.97; filter: brightness(0.97); }
+            20% { opacity: 0.99; filter: brightness(1); }
+            100% { opacity: 1; filter: brightness(1); }
         }
 
         .monitor-effect {
@@ -48,11 +50,11 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 55;
-            background: radial-gradient(rgba(18, 16, 16, 0) 60%, rgba(0, 0, 0, 0.2) 100%),
-                        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%),
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
-            background-size: 100% 100%, 100% 3px, 100% 100%;
-            animation: monitor-flicker 0.3s infinite;
+            background: radial-gradient(rgba(18, 16, 16, 0) 60%, rgba(0, 0, 0, 0.3) 100%), /* Slightly darker vignette */
+                        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%), /* Stronger scanlines */
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02)); /* More visible RGB noise */
+            background-size: 100% 100%, 100% 4px, 100% 100%; /* Adjust scanline size */
+            animation: monitor-flicker 0.2s infinite; /* Faster flicker */
         }
 
         .scanlines {
@@ -61,9 +63,9 @@
             background: linear-gradient(
                 to bottom,
                 rgba(18, 16, 16, 0) 50%,
-                rgba(0, 0, 0, 0.1) 50%
+                rgba(0, 0, 0, 0.15) 50% /* Stronger scanlines */
             );
-            background-size: 100% 2px;
+            background-size: 100% 3px; /* Slightly thicker scanlines */
             z-index: 50;
             pointer-events: none;
             opacity: 0.9;
@@ -72,26 +74,135 @@
         .tactical-vignette {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.6) 100%);
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.7) 100%); /* Stronger vignette */
             z-index: 5;
             pointer-events: none;
         }
 
+        @keyframes fade-out-up-and-shadow {
+            0% { opacity: 1; transform: translateY(0); text-shadow: 0 0 15px rgba(0, 255, 255, 0.7); } /* Stronger initial shadow */
+            10% { opacity: 1; transform: translateY(-3px); }
+            80% { opacity: 0.2; transform: translateY(-15px); text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); } /* Fading shadow */
+            100% { opacity: 0; transform: translateY(-20px); text-shadow: none; }
+        }
+
+        .fading-subtitle {
+            animation: fade-out-up-and-shadow 5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            /* Default to cyan shadow for user input */
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5); /* Stronger default shadow */
+        }
+        
+        .ai-subtitle-shadow {
+            text-shadow: 0 0 8px rgba(255, 127, 0, 0.5); /* Stronger orange shadow for history AI */
+        }
+
         .subtitle-stream {
-            transition: all 0.3s ease-out;
-            text-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+            /* Default to cyan shadow for user input */
+            text-shadow: 0 0 18px rgba(0, 255, 255, 0.9); /* Even stronger shadow */
+        }
+        
+        .ai-stream-shadow {
+            text-shadow: 0 0 18px rgba(255, 127, 0, 0.9); /* Even stronger orange shadow for active AI stream */
         }
 
         .installation-bar {
-            height: 4px;
+            height: 6px; /* Slightly thicker */
             background: #FFF;
-            box-shadow: 0 0 15px rgba(255,255,255,0.8);
+            box-shadow: 0 0 20px rgba(255,255,255,0.9); /* Stronger glow */
             transition: width 0.15s ease-in-out;
         }
 
         video {
-            filter: contrast(1.1) brightness(0.9) saturate(1.15);
+            filter: contrast(1.1) brightness(0.9) saturate(1.15) hue-rotate(-2deg); /* Subtle hue shift */
         }
+
+        .map-window-animation {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .map-expanded-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+            backdrop-filter: blur(10px); /* Stronger blur */
+            z-index: 90;
+        }
+
+        /* --- New System Activity Indicator Styles --- */
+        .system-activity-indicator {
+            display: flex;
+            gap: 3px; /* Slightly wider gap */
+            height: 16px; /* Slightly taller */
+            align-items: flex-end;
+            width: 100px; /* Wider */
+            opacity: 0.3; /* Dim by default, slightly more visible */
+            transition: opacity 0.3s ease-in-out;
+            box-shadow: none; /* Removed overall box-shadow */
+        }
+
+        .system-activity-indicator.active {
+            opacity: 0.9; /* Brighter when active */
+        }
+
+        .system-activity-indicator .segment {
+            width: 10px; /* Wider segments */
+            background: #00FFFF; /* Cyan color */
+            height: 50%; /* Default height */
+            transition: all 0.2s ease-out;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.6); /* Stronger individual segment glow */
+        }
+
+        .system-activity-indicator.active .segment {
+            animation: activityPulse 1.2s infinite ease-in-out;
+        }
+
+        @keyframes activityPulse {
+            0%, 100% { transform: scaleY(0.5); opacity: 0.6; } /* Increased base opacity */
+            50% { transform: scaleY(1.0); opacity: 1; }
+        }
+        /* --- End System Activity Indicator Styles --- */
+
+        /* --- New global .label styles (for TacticalMap3D) --- */
+        .label {
+            backdrop-filter: blur(3px); /* Stronger blur behind the label */
+            transform-origin: center;
+            animation: labelAppear 0.3s ease-out forwards;
+            border-radius: 8px; /* More rounded corners */
+            text-transform: uppercase; /* Ensure all labels are uppercase */
+        }
+
+        @keyframes labelAppear {
+            from { opacity: 0; transform: translateY(15px) scale(0.7); } /* Larger initial movement and scale */
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes labelPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.9; } /* More pronounced pulse */
+        }
+        /* --- End .label styles --- */
+
+        /* Custom Scrollbar Styles for LogModal */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 255, 0.5); /* Cyan */
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+        }
+
 
         ::-webkit-scrollbar { display: none; }
         * { -ms-overflow-style: none; scrollbar-width: none; }
@@ -104,7 +215,9 @@
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "three": "https://esm.sh/three@^0.182.0",
     "three/": "https://esm.sh/three@^0.182.0/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0"
+    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
+    "three/examples/jsm/loaders/GLTFLoader.js": "https://esm.sh/three@0.182.0/examples/jsm/loaders/GLTFLoader.js",
+    "@tensorflow/tfjs": "https://esm.sh/@tensorflow/tfjs@^4.22.0"
   }
 }
 </script>
@@ -114,5 +227,6 @@
     <div class="monitor-effect"></div>
     <div class="scanlines"></div>
     <div class="tactical-vignette"></div>
+    <script src="./services/Heightmap.js"></script>
 </body>
 </html>

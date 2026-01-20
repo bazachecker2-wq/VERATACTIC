@@ -24,12 +24,7 @@ export interface Target {
   type: string;
   timestamp: number;
   isAiMarked?: boolean;
+  isAnchoredToView?: boolean; // New: If true, this AI-marked target is anchored to its screen position
   distance?: number; // Simulated distance in meters
   ownerId?: string; // ID of the operator who created this target
-}
-
-export interface PeerMessage {
-  type: 'TARGET_UPDATE' | 'LOG_UPDATE' | 'SYNC_STATE' | 'VOICE_PING';
-  data: any;
-  senderId: string;
 }
