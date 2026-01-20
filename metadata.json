@@ -1,0 +1,8 @@
+{
+  "name": "Aegis Tactical AI HUD",
+  "description": "Интеллектуальная тактическая система с интеграцией Gemini 2.5 Live API для анализа видеопотока и голосового взаимодействия в реальном времени.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
